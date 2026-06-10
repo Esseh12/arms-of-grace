@@ -24,7 +24,7 @@ export default function MissionBanner() {
               <footer className="mt-3 text-sm font-semibold text-purple">— Patricia Owens, Executive Director</footer>
             </blockquote>
             <p className="text-muted text-base leading-relaxed mb-8">
-              Founded in 2010, Arms of Grace has grown from a small team of three to a full-service child placing agency serving families across the Greater Houston area. Our work is fueled by faith, driven by love, and grounded in the belief that every child deserves permanency.
+              Founded in 2010, Arms of Grace has grown from a small team of three to a full-service child placing agency serving families across Richmond, TX and the surrounding areas. Our work is fueled by faith, driven by love, and grounded in the belief that every child deserves permanency.
             </p>
             <Link href="/about" className="inline-flex items-center gap-2 bg-purple hover:bg-purple-dark text-white px-6 py-3 rounded-full font-semibold text-sm transition-colors">
               Learn Our Story

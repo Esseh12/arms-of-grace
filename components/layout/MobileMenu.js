@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useState } from "react";
 
 export default function MobileMenu({ isOpen, onClose, links }) {
@@ -9,10 +10,10 @@ export default function MobileMenu({ isOpen, onClose, links }) {
   return (
     <>
       {isOpen && <div className="fixed inset-0 bg-dark/40 z-50 backdrop-blur-sm" onClick={onClose} />}
-      <div className={`fixed top-0 right-0 h-full w-80 bg-white z-50 shadow-2xl transform transition-transform duration-300 ${isOpen ? "translate-x-0" : "translate-x-full"} flex flex-col`}>
-        <div className="flex items-center justify-between px-6 py-5 border-b border-soft">
-          <p className="font-heading font-bold text-purple text-lg">Arms of Grace</p>
-          <button onClick={onClose} className="p-2 rounded-lg hover:bg-soft text-dark transition-colors">
+      <div className={`fixed top-0 right-0 h-full w-80 bg-cream z-50 shadow-2xl transform transition-transform duration-300 ${isOpen ? "translate-x-0" : "translate-x-full"} flex flex-col`}>
+        <div className="flex items-center justify-between px-6 py-5 border-b border-cream-dark">
+          <Image src="/images/logo.png" alt="Arms of Grace" width={56} height={56} className="object-contain" />
+          <button onClick={onClose} className="p-2 rounded-lg hover:bg-cream-dark text-brown transition-colors">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
             </svg>
@@ -24,7 +25,7 @@ export default function MobileMenu({ isOpen, onClose, links }) {
             link.dropdown ? (
               <div key={link.label}>
                 <button
-                  className="w-full flex items-center justify-between px-4 py-3 text-dark font-medium text-sm rounded-xl hover:bg-lavender transition-colors"
+                  className="w-full flex items-center justify-between px-4 py-3 text-brown font-medium text-sm rounded-xl hover:bg-cream-dark transition-colors"
                   onClick={() => setOpenDropdown(openDropdown === link.label ? null : link.label)}
                 >
                   {link.label}
@@ -33,9 +34,9 @@ export default function MobileMenu({ isOpen, onClose, links }) {
                   </svg>
                 </button>
                 {openDropdown === link.label && (
-                  <div className="ml-4 mt-1 space-y-1 border-l-2 border-soft pl-3">
+                  <div className="ml-4 mt-1 space-y-1 border-l-2 border-cream-dark pl-3">
                     {link.dropdown.map((item) => (
-                      <Link key={item.href} href={item.href} onClick={onClose} className="block px-3 py-2 text-sm text-muted hover:text-purple transition-colors">
+                      <Link key={item.href} href={item.href} onClick={onClose} className="block px-3 py-2 text-sm text-brown/70 hover:text-purple transition-colors">
                         {item.label}
                       </Link>
                     ))}
@@ -43,18 +44,18 @@ export default function MobileMenu({ isOpen, onClose, links }) {
                 )}
               </div>
             ) : (
-              <Link key={link.label} href={link.href} onClick={onClose} className="block px-4 py-3 text-dark font-medium text-sm rounded-xl hover:bg-lavender hover:text-purple transition-colors">
+              <Link key={link.label} href={link.href} onClick={onClose} className="block px-4 py-3 text-brown font-medium text-sm rounded-xl hover:bg-cream-dark hover:text-purple transition-colors">
                 {link.label}
               </Link>
             )
           )}
         </nav>
 
-        <div className="px-6 py-6 border-t border-soft space-y-3">
-          <Link href="/become-volunteer" onClick={onClose} className="block w-full text-center border-2 border-purple text-purple font-semibold py-3 rounded-full text-sm hover:bg-soft transition-colors">
+        <div className="px-6 py-6 border-t border-cream-dark space-y-3">
+          <Link href="/become-volunteer" onClick={onClose} className="block w-full text-center border-2 border-brown/30 text-brown font-semibold py-3 rounded-full text-sm hover:bg-cream-dark transition-colors">
             Become a Volunteer
           </Link>
-          <Link href="/contact" onClick={onClose} className="block w-full text-center bg-pink text-white font-semibold py-3 rounded-full text-sm hover:bg-pink-dark transition-colors">
+          <Link href="/contact" onClick={onClose} className="block w-full text-center bg-purple text-white font-semibold py-3 rounded-full text-sm hover:bg-purple-dark transition-colors">
             Donate Now
           </Link>
         </div>

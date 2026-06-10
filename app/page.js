@@ -3,6 +3,7 @@ import CausesGrid from "@/components/home/CausesGrid";
 import StatsSection from "@/components/home/StatsSection";
 import MissionBanner from "@/components/home/MissionBanner";
 import TestimonialsSection from "@/components/home/TestimonialsSection";
+import FaqSection from "@/components/home/FaqSection";
 import GetInvolvedSection from "@/components/home/GetInvolvedSection";
 import BlogPreview from "@/components/home/BlogPreview";
 
@@ -14,6 +15,7 @@ export default function HomePage() {
       <StatsSection />
       <MissionBanner />
       <TestimonialsSection />
+      <FaqSection />
       <GetInvolvedSection />
       <BlogPreview />
     </>
