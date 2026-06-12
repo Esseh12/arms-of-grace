@@ -1,5 +1,6 @@
 import PageHero from "@/components/ui/PageHero";
 import BlogCard from "@/components/blog/BlogCard";
+import FaqSection from "@/components/home/FaqSection";
 import { blogPosts } from "@/data/blog-posts";
 
 export const metadata = {
@@ -33,6 +34,7 @@ export default function BlogPage() {
           </div>
         </div>
       </section>
+      <FaqSection />
     </>
   );
 }

@@ -14,14 +14,34 @@ const subjects = [
 ];
 
 export default function ContactForm() {
-  const [submitted, setSubmitted] = useState(false);
+  const [status, setStatus] = useState("idle"); // idle | loading | success | error
+  const [errorMsg, setErrorMsg] = useState("");
+  const [form, setForm] = useState({ firstName: "", lastName: "", email: "", phone: "", subject: "", message: "" });
 
-  function handleSubmit(e) {
-    e.preventDefault();
-    setSubmitted(true);
+  function set(field) {
+    return (e) => setForm((f) => ({ ...f, [field]: e.target.value }));
   }
 
-  if (submitted) {
+  async function handleSubmit(e) {
+    e.preventDefault();
+    setStatus("loading");
+    setErrorMsg("");
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Something went wrong.");
+      setStatus("success");
+    } catch (err) {
+      setErrorMsg(err.message);
+      setStatus("error");
+    }
+  }
+
+  if (status === "success") {
     return (
       <div className="bg-purple/8 rounded-2xl p-10 text-center">
         <div className="w-16 h-16 rounded-full bg-purple/15 flex items-center justify-center mx-auto mb-4">
@@ -40,34 +60,44 @@ export default function ContactForm() {
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
         <div>
           <label className="block text-sm font-semibold text-dark mb-1.5">First Name</label>
-          <input required type="text" placeholder="Patricia" className="w-full border border-soft rounded-xl px-4 py-3 text-sm text-dark placeholder:text-muted/60 focus:outline-none focus:border-purple focus:ring-2 focus:ring-purple/15 transition bg-white" />
+          <input required type="text" placeholder="Patricia" value={form.firstName} onChange={set("firstName")} className="w-full border border-soft rounded-xl px-4 py-3 text-sm text-dark placeholder:text-muted/60 focus:outline-none focus:border-purple focus:ring-2 focus:ring-purple/15 transition bg-white" />
         </div>
         <div>
           <label className="block text-sm font-semibold text-dark mb-1.5">Last Name</label>
-          <input required type="text" placeholder="Owens" className="w-full border border-soft rounded-xl px-4 py-3 text-sm text-dark placeholder:text-muted/60 focus:outline-none focus:border-purple focus:ring-2 focus:ring-purple/15 transition bg-white" />
+          <input required type="text" placeholder="Owens" value={form.lastName} onChange={set("lastName")} className="w-full border border-soft rounded-xl px-4 py-3 text-sm text-dark placeholder:text-muted/60 focus:outline-none focus:border-purple focus:ring-2 focus:ring-purple/15 transition bg-white" />
         </div>
       </div>
       <div>
         <label className="block text-sm font-semibold text-dark mb-1.5">Email Address</label>
-        <input required type="email" placeholder="you@email.com" className="w-full border border-soft rounded-xl px-4 py-3 text-sm text-dark placeholder:text-muted/60 focus:outline-none focus:border-purple focus:ring-2 focus:ring-purple/15 transition bg-white" />
+        <input required type="email" placeholder="you@email.com" value={form.email} onChange={set("email")} className="w-full border border-soft rounded-xl px-4 py-3 text-sm text-dark placeholder:text-muted/60 focus:outline-none focus:border-purple focus:ring-2 focus:ring-purple/15 transition bg-white" />
       </div>
       <div>
         <label className="block text-sm font-semibold text-dark mb-1.5">Phone Number</label>
-        <input type="tel" placeholder="(713) 555-0100" className="w-full border border-soft rounded-xl px-4 py-3 text-sm text-dark placeholder:text-muted/60 focus:outline-none focus:border-purple focus:ring-2 focus:ring-purple/15 transition bg-white" />
+        <input type="tel" placeholder="(281) 555-0100" value={form.phone} onChange={set("phone")} className="w-full border border-soft rounded-xl px-4 py-3 text-sm text-dark placeholder:text-muted/60 focus:outline-none focus:border-purple focus:ring-2 focus:ring-purple/15 transition bg-white" />
       </div>
       <div>
         <label className="block text-sm font-semibold text-dark mb-1.5">Subject</label>
-        <select required className="w-full border border-soft rounded-xl px-4 py-3 text-sm text-dark focus:outline-none focus:border-purple focus:ring-2 focus:ring-purple/15 transition bg-white">
+        <select required value={form.subject} onChange={set("subject")} className="w-full border border-soft rounded-xl px-4 py-3 text-sm text-dark focus:outline-none focus:border-purple focus:ring-2 focus:ring-purple/15 transition bg-white">
           <option value="">Select a subject...</option>
           {subjects.map((s) => <option key={s} value={s}>{s}</option>)}
         </select>
       </div>
       <div>
         <label className="block text-sm font-semibold text-dark mb-1.5">Message</label>
-        <textarea required rows={5} placeholder="Tell us how we can help..." className="w-full border border-soft rounded-xl px-4 py-3 text-sm text-dark placeholder:text-muted/60 focus:outline-none focus:border-purple focus:ring-2 focus:ring-purple/15 transition bg-white resize-none" />
+        <textarea required rows={5} placeholder="Tell us how we can help..." value={form.message} onChange={set("message")} className="w-full border border-soft rounded-xl px-4 py-3 text-sm text-dark placeholder:text-muted/60 focus:outline-none focus:border-purple focus:ring-2 focus:ring-purple/15 transition bg-white resize-none" />
       </div>
-      <button type="submit" className="w-full bg-pink hover:bg-pink-dark text-white font-semibold py-3.5 rounded-full transition-colors text-sm">
-        Send Message
+
+      {status === "error" && (
+        <p className="text-sm text-pink font-medium">{errorMsg}</p>
+      )}
+
+      <button type="submit" disabled={status === "loading"} className="w-full bg-pink hover:bg-pink-dark disabled:opacity-60 disabled:cursor-not-allowed text-white font-semibold py-3.5 rounded-full transition-colors text-sm flex items-center justify-center gap-2">
+        {status === "loading" ? (
+          <>
+            <svg className="animate-spin" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>
+            Sending…
+          </>
+        ) : "Send Message"}
       </button>
     </form>
   );

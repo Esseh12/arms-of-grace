@@ -1,6 +1,8 @@
 import PageHero from "@/components/ui/PageHero";
 import ContactInfo from "@/components/contact/ContactInfo";
 import ContactForm from "@/components/contact/ContactForm";
+import StatsSection from "@/components/home/StatsSection";
+import FaqSection from "@/components/home/FaqSection";
 
 export const metadata = {
   title: "Contact Us | Arms of Grace",
@@ -33,6 +35,8 @@ export default function ContactPage() {
           </div>
         </div>
       </section>
+      <StatsSection />
+      <FaqSection />
     </>
   );
 }
