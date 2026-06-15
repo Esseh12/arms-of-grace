@@ -33,7 +33,7 @@ export default function CauseContent({ cause }) {
           </div>
 
           <div className="lg:col-span-2 space-y-6">
-            <ImgPlaceholder aspect="3/4" color={cause.color} label={`${cause.title} — program photo`} src={cause.detailImage} />
+            <ImgPlaceholder aspect="3/4" color={cause.color} label={`${cause.title} — program photo`} src={cause.detailImage || cause.image} />
             <div className="bg-lavender rounded-2xl p-6 border border-soft">
               <h4 className="font-heading font-bold text-dark text-base mb-2">Ready to Take the Next Step?</h4>
               <p className="text-muted text-sm leading-relaxed mb-4">Contact our team today and speak with a specialist about how you can get involved with our {cause.title} program.</p>
